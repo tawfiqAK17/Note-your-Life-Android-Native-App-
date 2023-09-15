@@ -1,5 +1,6 @@
 package taw.ak.noteyourlife
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,6 +47,9 @@ fun SavedNotesAndToDos(
     vpadding : Boolean,
     navController: NavController
 ) {
+    BackHandler() {
+        navController.navigate(Screens.MainScreen.route)
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -107,7 +111,6 @@ fun SavedNotesAndToDos(
                         }
                         Box(modifier = Modifier
                             .size(60.dp)
-                            //.padding(start = 20.dp, end = 20.dp,)
                             .clip(RoundedCornerShape(30.dp))
                             .background(color = colorResource(id = R.color.addNew))
                             .align(Alignment.BottomEnd)

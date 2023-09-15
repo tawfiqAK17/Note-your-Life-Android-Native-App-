@@ -1,5 +1,7 @@
 package taw.ak.noteyourlife.Notes
 
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -26,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -37,6 +40,8 @@ import taw.ak.noteyourlife.Database.NoteViewModel
 import taw.ak.noteyourlife.R
 import taw.ak.noteyourlife.Screens
 import taw.ak.noteyourlife.Screens.AddNote.route
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun SavedNotes(
@@ -45,6 +50,9 @@ fun SavedNotes(
     font: FontFamily,
     notes: List<Note>
 ) {
+    BackHandler() {
+        navController.navigate(Screens.MainScreen.route)
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         Column(
             modifier = Modifier
@@ -65,23 +73,33 @@ fun SavedNotes(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .weight(1f)
+                                .padding(start = 10.dp, end = 10.dp)
                         ) {
                             Text(
                                 text = note.date,
                                 fontFamily = font,
-                                modifier = Modifier.weight(1f)
+                                modifier = Modifier.weight(1.8f)
                             )
                             Spacer(modifier = Modifier.weight(4f))
-                            Icon(imageVector = Icons.Default.Delete,
-                                contentDescription = "delete note",
+                            Image(painter = painterResource(id = R.drawable.copy),
+                                contentDescription ="copy note",
+                                modifier = Modifier
+                                    .clickable {
+                                        note.date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                                        mViewModel.upsertNote(note)
+                                    }
+                                    .weight(1f)
+                                )
+                            Image(painter = painterResource(id = R.drawable.delete),
+                                contentDescription ="copy note",
                                 modifier = Modifier
                                     .clickable {
                                         mViewModel.deletNote(note)
                                     }
                                     .weight(1f)
                             )
-                            Icon(imageVector = Icons.Default.Edit,
-                                contentDescription = "edite note",
+                            Image(painter = painterResource(id = R.drawable.edit),
+                                contentDescription ="copy note",
                                 modifier = Modifier
                                     .clickable {
                                         val isEditing = true
@@ -95,6 +113,7 @@ fun SavedNotes(
 
                             )
                         }
+                        Spacer(modifier = Modifier.height(5.dp))
                         Box(
                             modifier = Modifier
                                 .weight(9f)
@@ -134,7 +153,7 @@ fun SavedNotes(
         }
         Box(modifier = Modifier
             .align(Alignment.BottomEnd)
-            .padding( 20.dp)
+            .padding(20.dp)
         ) {
             Box(modifier = Modifier
                 .size(60.dp)

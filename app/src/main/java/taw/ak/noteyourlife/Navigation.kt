@@ -86,7 +86,8 @@ fun Navigation() {
                 },
                 navArgument(name = "isEditing") {
                     type = NavType.BoolType
-                }
+                },
+
             ),
 
         ){
