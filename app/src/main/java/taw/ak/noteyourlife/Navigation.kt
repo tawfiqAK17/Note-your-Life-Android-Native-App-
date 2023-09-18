@@ -1,6 +1,7 @@
 package taw.ak.noteyourlife
 
 import android.app.Application
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.platform.LocalContext
@@ -87,7 +88,6 @@ fun Navigation() {
                 navArgument(name = "isEditing") {
                     type = NavType.BoolType
                 },
-
             ),
 
         ){
@@ -96,10 +96,10 @@ fun Navigation() {
                 viewModel =mViewMoodel,
                 vtitle = it.arguments?.getString("title"),
                 vcontent = it.arguments?.getString("content"),
-                isEditing = it.arguments?.getBoolean("isEditing")
+                isEditing = it.arguments?.getBoolean("isEditing"),
                 )
         }
 
     }
-
+    Log.i("taww", "Navigation: ")
 }

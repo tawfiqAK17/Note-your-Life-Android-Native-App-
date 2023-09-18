@@ -1,5 +1,6 @@
 package taw.ak.noteyourlife.Notes
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -76,7 +77,7 @@ fun SavedNotes(
                                 .padding(start = 10.dp, end = 10.dp)
                         ) {
                             Text(
-                                text = note.date,
+                                text = note.date!!,
                                 fontFamily = font,
                                 modifier = Modifier.weight(1.8f)
                             )
@@ -85,8 +86,13 @@ fun SavedNotes(
                                 contentDescription ="copy note",
                                 modifier = Modifier
                                     .clickable {
-                                        note.date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                                        mViewModel.upsertNote(note)
+                                        val vNote = note.copy(
+                                            date = LocalDate
+                                                .now()
+                                                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                            id = 0
+                                        )
+                                        mViewModel.upsertNote(vNote)
                                     }
                                     .weight(1f)
                                 )
@@ -105,7 +111,7 @@ fun SavedNotes(
                                         val isEditing = true
                                         navController.navigate(
                                             "${Screens.EditeNote.route}/${note.title}" +
-                                                    "/${note.content}/$isEditing"
+                                                    "/${note.content}/$isEditing}"
                                         )
                                         mViewModel.deletNote(note)
                                     }
@@ -174,4 +180,5 @@ fun SavedNotes(
             }
         }
     }
+    Log.i("taww", "SavedNotes: ")
 }

@@ -1,6 +1,5 @@
 package taw.ak.noteyourlife.Notes
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -26,7 +25,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -50,7 +48,6 @@ fun AddNote(
     vcontent: String? = null,
     isEditing: Boolean? = false
 ) {
-    val context = LocalContext.current
     //a copy of the note which ganna be modified because it had deleted when the editing icon had pressed
     val mNote = Note(
         title = vtitle,
@@ -142,26 +139,21 @@ fun AddNote(
                         }
                     }
                     Spacer(modifier = Modifier.height(5.dp))
-                    Text(text = "cancel", fontFamily = font, fontSize = 16.sp)
+                    Text(text = "delete", fontFamily = font, fontSize = 16.sp)
 
                 }
                 Spacer(modifier = Modifier.weight(4f))
                 Column(horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.clickable {
-                        if (title.isNotBlank() || content.isNotBlank()) {
-                            val date =
-                                LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                            val note = Note(
-                                title = title.ifBlank { "No title" },
-                                content = content.ifBlank { "No content" },
-                                date = date,
-                                id = 0
-                            )
-                            viewModel.upsertNote(note)
-                            navController.navigate(Screens.SavedNotes.route)
-                        }else{
-                            Toast.makeText(context,"you should pass a text and a title",Toast.LENGTH_SHORT).show()
-                        }
+                        val date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                        val note = Note(
+                            title = title.ifBlank { "No title" },
+                            content = content.ifBlank { "No content" },
+                            date = date,
+                            id = 0
+                        )
+                        viewModel.upsertNote(note)
+                        navController.navigate(Screens.SavedNotes.route)
                     }
                 ) {
                     Box(
