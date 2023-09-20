@@ -1,4 +1,4 @@
-package taw.ak.noteyourlife.Database
+package taw.ak.noteyourlife.Database.NotesDatabase
 
 import android.media.Image
 import android.speech.tts.Voice

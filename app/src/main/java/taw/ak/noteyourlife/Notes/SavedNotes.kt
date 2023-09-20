@@ -20,8 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,11 +34,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import taw.ak.noteyourlife.Database.Note
-import taw.ak.noteyourlife.Database.NoteViewModel
+import taw.ak.noteyourlife.Database.NotesDatabase.Note
+import taw.ak.noteyourlife.Database.NotesDatabase.NoteViewModel
 import taw.ak.noteyourlife.R
 import taw.ak.noteyourlife.Screens
-import taw.ak.noteyourlife.Screens.AddNote.route
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -87,9 +84,7 @@ fun SavedNotes(
                                 modifier = Modifier
                                     .clickable {
                                         val vNote = note.copy(
-                                            date = LocalDate
-                                                .now()
-                                                .format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                                            date =  LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
                                             id = 0
                                         )
                                         mViewModel.upsertNote(vNote)

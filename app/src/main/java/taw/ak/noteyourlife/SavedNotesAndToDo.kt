@@ -31,8 +31,8 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import taw.ak.noteyourlife.Database.Note
-import taw.ak.noteyourlife.Database.NoteViewModel
+import taw.ak.noteyourlife.Database.NotesDatabase.Note
+import taw.ak.noteyourlife.Database.NotesDatabase.NoteViewModel
 import taw.ak.noteyourlife.Notes.SavedNotes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -45,6 +45,7 @@ fun SavedNotesAndToDos(
     logo : Painter,
     route : String,
     vpadding : Boolean,
+    title : String,
     navController: NavController
 ) {
     BackHandler() {
@@ -60,7 +61,7 @@ fun SavedNotesAndToDos(
                 CenterAlignedTopAppBar(
                     modifier = Modifier.background(colorResource(id = R.color.topAppBar)),
                     title = {
-                        Text(text = "Notes", fontFamily = font, fontSize = 26.sp)
+                        Text(text = title, fontFamily = font, fontSize = 26.sp)
                     },
                     navigationIcon = {
                         Icon(

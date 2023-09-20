@@ -1,4 +1,4 @@
-package taw.ak.noteyourlife.Database
+package taw.ak.noteyourlife.Database.NotesDatabase
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
