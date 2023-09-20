@@ -33,8 +33,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import taw.ak.noteyourlife.Database.Note
-import taw.ak.noteyourlife.Database.NoteViewModel
+import taw.ak.noteyourlife.Database.NotesDatabase.Note
+import taw.ak.noteyourlife.Database.NotesDatabase.NoteViewModel
 import taw.ak.noteyourlife.R
 import taw.ak.noteyourlife.Screens
 import java.time.LocalDate

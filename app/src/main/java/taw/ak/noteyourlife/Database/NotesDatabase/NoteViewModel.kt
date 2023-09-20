@@ -1,4 +1,4 @@
-package taw.ak.noteyourlife.Database
+package taw.ak.noteyourlife.Database.NotesDatabase
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 class NoteViewModel(application: Application):AndroidViewModel(application) {
 
     val readAllNotes:LiveData<List<Note>>
-    private val repository:NoteRepository
+    private val repository: NoteRepository
 
     init {
         val noteDao = NoteDatabase.getDatabase(application).noteDao()
@@ -23,7 +23,7 @@ class NoteViewModel(application: Application):AndroidViewModel(application) {
             repository.upsertNote(note)
         }
     }
-    fun deletNote(note:Note){
+    fun deletNote(note: Note){
         viewModelScope.launch(Dispatchers.IO) {
             repository.deletNote(note)
         }

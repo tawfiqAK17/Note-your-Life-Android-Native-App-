@@ -1,13 +1,13 @@
-package taw.ak.noteyourlife.Database
+package taw.ak.noteyourlife.Database.NotesDatabase
 
 import androidx.lifecycle.LiveData
 
 class NoteRepository(private val noteDao: NoteDao){
     val readAllNotes:LiveData<List<Note>> = noteDao.readAllNotes()
-    suspend fun upsertNote (note:Note){
+    suspend fun upsertNote (note: Note){
         noteDao.upsertNote(note)
     }
-    suspend fun deletNote(note:Note){
+    suspend fun deletNote(note: Note){
         noteDao.deletNote(note)
     }
 }

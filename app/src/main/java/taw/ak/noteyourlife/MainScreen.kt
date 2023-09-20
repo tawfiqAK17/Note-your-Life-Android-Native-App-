@@ -1,7 +1,9 @@
 package taw.ak.noteyourlife
 
+import android.app.Activity
 import android.icu.text.CaseMap.Title
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -42,6 +44,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -56,6 +59,10 @@ fun MainScreen(
                 navController: NavController,
                fontFamily: FontFamily,
 ) {
+    val activity =  (LocalContext.current as? Activity)
+    BackHandler(){
+       activity?.finish()
+    }
     val items = listOf(
         BottomBarItems(
             title = "Home",
@@ -179,7 +186,9 @@ fun MainScreen(
                                     Image(
                                         painter = painterResource(id = R.drawable.to_do),
                                         contentDescription = "todo logo",
-                                        modifier = Modifier.fillMaxSize().padding(5.dp)
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(5.dp)
                                     )
 
                                 }
@@ -214,7 +223,9 @@ fun MainScreen(
                                     Image(
                                         painter = painterResource(id = R.drawable.pie_chart),
                                         contentDescription = "pieChart logo",
-                                        modifier = Modifier.fillMaxSize().padding(5.dp)
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .padding(5.dp)
                                     )
 
                                 }
