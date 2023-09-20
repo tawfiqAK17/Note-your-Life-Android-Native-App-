@@ -1,11 +1,10 @@
 package taw.ak.noteyourlife
 
-import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,22 +21,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import taw.ak.noteyourlife.Database.Note
 import taw.ak.noteyourlife.Database.NoteViewModel
-import kotlin.math.log
+import taw.ak.noteyourlife.Notes.SavedNotes
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -51,6 +47,9 @@ fun SavedNotesAndToDos(
     vpadding : Boolean,
     navController: NavController
 ) {
+    BackHandler() {
+        navController.navigate(Screens.MainScreen.route)
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -86,14 +85,13 @@ fun SavedNotesAndToDos(
                 if (notes.isEmpty()) {
                     Box(contentAlignment = Alignment.Center, modifier = Modifier
                         .fillMaxSize()
-                        .padding(bottom = 20.dp)) {
+                        .padding(bottom = 20.dp, end = 20.dp)) {
                     Column(modifier = Modifier
                         .size(350.dp)
                         .padding(start = if (vpadding) 45.dp else 0.dp, bottom = 150.dp),
                         ) {
                         Box(modifier = Modifier
                             .fillMaxSize()
-                            //.padding(bottom = 100.dp),
                             ) {
                             Image(painter = logo,
                                 contentDescription =text,
@@ -112,10 +110,10 @@ fun SavedNotesAndToDos(
                         }
                         }
                         Box(modifier = Modifier
-                            .size(70.dp)
+                            .size(60.dp)
                             .clip(RoundedCornerShape(30.dp))
                             .background(color = colorResource(id = R.color.addNew))
-                            .align(Alignment.BottomCenter)
+                            .align(Alignment.BottomEnd)
                             .clickable {
 
                                 navController.navigate(route)

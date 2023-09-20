@@ -1,11 +1,9 @@
 package taw.ak.noteyourlife
 
 import android.app.Application
-import android.provider.ContactsContract.CommonDataKinds.Note
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -19,6 +17,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import taw.ak.noteyourlife.Database.NoteViewModel
+import taw.ak.noteyourlife.Notes.AddNote
 
 @Composable
 fun Navigation() {
@@ -51,7 +50,7 @@ fun Navigation() {
                 notes = notes,
                 font = fontFamily,
                 navController = navController,
-                text = "NO saned notes",
+                text = "NO saved notes",
                 logo = painterResource(id = R.drawable.no_seved_notes),
                 route = Screens.AddNote.route,
                 vpadding = true,
@@ -72,17 +71,11 @@ fun Navigation() {
             )
         }
         // add new note
-        composable(route = Screens.AddNote.route,
-            /**/
-        ) {
+        composable(route = Screens.AddNote.route,){
             AddNote(
                 navController = navController,
                 font = fontFamily,
-                viewModel = mViewMoodel,
-               //vtitle = it.arguments?.getString("title"),
-                //vcontent = it.arguments?.getString("content"),
-                //isEditing = it.arguments?.getBoolean("editing")
-            )
+                viewModel = mViewMoodel)
         }
         composable(route = Screens.EditeNote.route + "/{title}/{content}/{isEditing}",
             arguments = listOf(
@@ -94,7 +87,7 @@ fun Navigation() {
                 },
                 navArgument(name = "isEditing") {
                     type = NavType.BoolType
-                }
+                },
             ),
 
         ){
@@ -103,10 +96,10 @@ fun Navigation() {
                 viewModel =mViewMoodel,
                 vtitle = it.arguments?.getString("title"),
                 vcontent = it.arguments?.getString("content"),
-                isEditing = it.arguments?.getBoolean("isEditing")
+                isEditing = it.arguments?.getBoolean("isEditing"),
                 )
         }
 
     }
-
+    Log.i("taww", "Navigation: ")
 }

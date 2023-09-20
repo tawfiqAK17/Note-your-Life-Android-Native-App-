@@ -232,5 +232,4 @@ fun MainScreen(
             }
         }
     }
-    Log.i("taww", "MainScreen ")
 }
