@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 
 class NoteViewModel(application: Application):AndroidViewModel(application) {
 
+    var copyOfNote : Note? = null
     val readAllNotes:LiveData<List<Note>>
     private val repository: NoteRepository
 
@@ -27,5 +28,11 @@ class NoteViewModel(application: Application):AndroidViewModel(application) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.deletNote(note)
         }
+    }
+    fun copyNote(note: Note){
+        copyOfNote = note.copy(id = 0)
+    }
+    fun deletCopy(){
+        copyOfNote = null
     }
 }

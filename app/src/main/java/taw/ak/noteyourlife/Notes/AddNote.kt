@@ -44,23 +44,17 @@ fun AddNote(
     navController: NavController,
     font: FontFamily,
     viewModel: NoteViewModel,
-    vtitle: String? = null,
-    vcontent: String? = null,
     isEditing: Boolean? = false
 ) {
     //a copy of the note which ganna be modified because it had deleted when the editing icon had pressed
-    val mNote = Note(
-        title = vtitle,
-        content = vcontent,
-        date = "",
-        id = 0
-    )
+    val copyOfNote = viewModel.copyOfNote
+    val ifNull = copyOfNote == null
     var title by remember {
-        mutableStateOf(vtitle ?: "")
+        mutableStateOf(if (ifNull) "" else copyOfNote?.title)
     }
 
     var content by remember {
-        mutableStateOf(vcontent ?: "")
+        mutableStateOf(if (ifNull) "" else copyOfNote?.content)
     }
     val scrollState = rememberScrollState()
     Box(modifier = Modifier.fillMaxSize()) {
@@ -74,7 +68,7 @@ fun AddNote(
                     .verticalScroll(scrollState)
             ) {
                 OutlinedTextField(
-                    value = title, onValueChange = { value ->
+                    value = title!!, onValueChange = { value ->
                         title = value
                     },
                     textStyle = TextStyle(
@@ -92,7 +86,7 @@ fun AddNote(
                         .fillMaxWidth()
                 )
                 OutlinedTextField(
-                    value = content, onValueChange = { value ->
+                    value = content!!, onValueChange = { value ->
                         content = value
                     },
                     textStyle = TextStyle(
@@ -115,12 +109,13 @@ fun AddNote(
                 Column(horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier.clickable {
                         //when the changes applied on the note had ben ignored we save the copy above
-                        if (isEditing!!) {
-                            mNote.date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
-                            viewModel.upsertNote(mNote)
-                        }
+                            if (copyOfNote != null) {
+                                viewModel.upsertNote(copyOfNote)
+                            }
                         navController.navigate(Screens.SavedNotes.route)
-                    }
+                        viewModel.deletCopy()
+                        }
+
                 ) {
                     Box(
                         modifier = Modifier
@@ -147,13 +142,14 @@ fun AddNote(
                     modifier = Modifier.clickable {
                         val date = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
                         val note = Note(
-                            title = title.ifBlank { "No title" },
-                            content = content.ifBlank { "No content" },
+                            title = title?.ifBlank { "No title" },
+                            content = content?.ifBlank { "No content" },
                             date = date,
                             id = 0
                         )
                         viewModel.upsertNote(note)
                         navController.navigate(Screens.SavedNotes.route)
+                        viewModel.deletCopy()
                     }
                 ) {
                     Box(

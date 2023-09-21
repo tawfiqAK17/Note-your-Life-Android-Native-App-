@@ -20,6 +20,8 @@ import taw.ak.noteyourlife.Database.NotesDatabase.NoteViewModel
 import taw.ak.noteyourlife.Database.ToDoDatabase.ToDo
 import taw.ak.noteyourlife.Database.ToDoDatabase.ToDoViewModel
 import taw.ak.noteyourlife.Notes.AddNote
+import taw.ak.noteyourlife.Notes.SavedNotes
+import taw.ak.noteyourlife.ToDo.SavedToDos
 
 @Composable
 fun Navigation() {
@@ -38,7 +40,7 @@ fun Navigation() {
     )
     val notes = noteViewModel.readAllNotes.observeAsState(listOf()).value
 
-    val ToDoViewModel: ToDoViewModel = viewModel<ToDoViewModel>(
+    val toDoViewModel: ToDoViewModel = viewModel<ToDoViewModel>(
         factory = object : ViewModelProvider.Factory {
             override fun <T : ViewModel> create(modelClass: Class<T>): T {
                 return ToDoViewModel(
@@ -47,7 +49,7 @@ fun Navigation() {
             }
         }
     )
-    val toDos = ToDoViewModel.readAllToDo.observeAsState(listOf()).value
+
 
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.MainScreen.route) {
@@ -58,62 +60,26 @@ fun Navigation() {
 
         // saved notes
         composable(route = Screens.SavedNotes.route) {
-            SavedNotesAndToDos(
-                mNoteViewModel = noteViewModel,
-                notes = notes,
+            SavedNotes(navController = navController,
                 font = fontFamily,
-                navController = navController,
-                text = "NO saved notes",
-                logo = painterResource(id = R.drawable.no_seved_notes),
-                route = Screens.AddNote.route,
-                title = "Notes",
-                vpadding = true,
+                notes = notes,
+                mViewModel = noteViewModel
             )
         }
 
         // saved todos
         composable(route = Screens.SavedToDos.route) {
-            SavedNotesAndToDos(
-                mNoteViewModel = noteViewModel,
-                notes = notes,
-                font = fontFamily,
-                navController = navController,
-                text = "NO saved To-Do",
-                logo = painterResource(id = R.drawable.no_saved_to_do),
-                route = Screens.AddToDo.route,
-                title = "To-Do",
-                vpadding = false
-            )
+            val toDos = toDoViewModel.readAllToDo.observeAsState(listOf()).value
+           SavedToDos(navController = navController,
+               toDos = toDos,
+               font =fontFamily )
         }
-        // add new note
+        // add new note and edite
         composable(route = Screens.AddNote.route,){
             AddNote(
                 navController = navController,
                 font = fontFamily,
                 viewModel = noteViewModel)
-        }
-        // edite a note
-        composable(route = Screens.EditeNote.route + "/{title}/{content}/{isEditing}",
-            arguments = listOf(
-                navArgument(name = "title") {
-                    type = NavType.StringType
-                },
-                navArgument(name = "content") {
-                    type = NavType.StringType
-                },
-                navArgument(name = "isEditing") {
-                    type = NavType.BoolType
-                },
-            ),
-
-        ){
-            AddNote(navController = navController,
-                font = fontFamily,
-                viewModel =noteViewModel,
-                vtitle = it.arguments?.getString("title"),
-                vcontent = it.arguments?.getString("content"),
-                isEditing = it.arguments?.getBoolean("isEditing"),
-                )
         }
         //add new to-do
         composable(route = Screens.AddToDo.route){
@@ -121,5 +87,4 @@ fun Navigation() {
         }
 
     }
-    Log.i("taww", "Navigation: ")
 }
